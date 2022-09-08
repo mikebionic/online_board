@@ -24,8 +24,8 @@ def getContours(img):
 	contours, hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 	for cnt in contours:
 		area = cv2.contourArea(cnt)
-		print(area)
-		if area > 100:
+		# print(area)
+		if area > 5000:
 			# cv2.drawContours(imgContour, cnt, -1, (255, 0, 0), 3)
 			peri = cv2.arcLength(cnt, True)
 			approx = cv2.approxPolyDP(cnt,0.02*peri,True)
@@ -35,8 +35,34 @@ def getContours(img):
 	cv2.drawContours(imgContour, biggest, -1, (255, 0, 0), 20)
 	return biggest
 
+
+def reorder(currentPoints):
+	# print(currentPoints)
+	try:
+		currentPoints = currentPoints.reshape((4,2))
+		currentPointsNew = np.zeros((4,1,2),np.int32)
+		add = currentPoints.sum(1)
+		currentPointsNew[0] = currentPoints[np.argmin(add)]
+		currentPointsNew[3] = currentPoints[np.argmax(add)]
+		diff = np.diff(currentPoints, axis = 1)
+		currentPointsNew[1] = currentPoints[np.argmin(diff)]
+		currentPointsNew[2] = currentPoints[np.argmax(diff)]
+	except:
+		return currentPoints
+	return currentPointsNew
+
+
+
 def getWarp(img, biggest):
-	pass
+	biggest = reorder(biggest)
+	points1 = np.float32(biggest)
+	points2 = np.float32([[0,0], [frameWidth,0],[0,frameHeight],[frameWidth,frameHeight]])
+	try:
+		matrix = cv2.getPerspectiveTransform(points1, points2)
+		imgOutput = cv2.warpPerspective(img,matrix,(frameWidth,frameHeight))
+	except:
+		return img
+	return imgOutput
 
 
 while True:
@@ -45,9 +71,10 @@ while True:
 	imgContour = img.copy()
 	imgThres = preProcessing(img)
 	biggest = getContours(imgThres)
-	getWarp(img, biggest)
 
-	cv2.imshow("Skaner", imgContour)
+	imgWarped = getWarp(img, biggest)
+
+	cv2.imshow("Skaner", imgWarped)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 
