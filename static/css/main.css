@@ -1,0 +1,31 @@
+.container{
+    text-align: center;
+}
+
+.outer-box {
+    width: 184px;
+    height: 184px;
+    margin: 60px auto;
+    text-align: left;
+    transform: rotate(45deg);
+}
+
+.outer-box .mb-20 {
+    margin-bottom: 20px;
+}
+
+.outer-box .mr-20 {
+    margin-right: 20px;
+}
+
+.outer-box button {
+    width: 80px;
+    height: 80px;
+    border: none;
+    background-color: #1E3149;
+    color: #fff;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+

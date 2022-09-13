@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = '1231231231231231231efsf3f33'
 def index():
 	cameras = {
 		'cam1':'http://127.0.0.1:5600/video_feed',
-		'cam2':'http://192.168.1.5:5600/video_feed',#shu yerde camera goshulyar
+		# 'cam2':'http://192.168.1.5:5600/video_feed',#shu yerde camera goshulyar
 	}
 	return render_template('index.html',cameras=cameras)
 
@@ -28,4 +28,4 @@ def gen(camera):
 # 	return render_template('dashboard.html')
 
 if __name__ == "__main__":
-	app.run(host="0.0.0.0" , port=5000 , debug=True)
+	app.run(host="0.0.0.0" , port=5600 , debug=True)
