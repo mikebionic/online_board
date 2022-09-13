@@ -1,0 +1,10 @@
+
+{% extends "dashboard.html" %}
+{% block content %}
+    <link rel="stylesheet" href="/static/css/main.css">
+    <div class="container">
+    {% for cam in cameras %}
+        <img src="{{cameras[cam]}}" class="img-fluid">
+    {% endfor %}
+    </div>
+{% endblock content %}
